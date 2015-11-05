@@ -22,15 +22,9 @@ skillup.controller("HomeCtrl", ["$scope", "$http", function ($scope, $http) {
     };
 
     home.logout = function(){
-        /**
-         * EXERCISE #7
-         * Complete the logout function
-         */
-
-        // TODO Perform an HTTP call to "/logout"
-        //   What's the HTTP method? the resource exists on the server
-
-        // TODO In the success callback, redirect to user to "#/login"
+        $http.post("/logout").then(function (res) {
+            window.location.href = "#/login";
+        });
     };
 
     home.changeGameStatus = function(game){
@@ -38,4 +32,12 @@ skillup.controller("HomeCtrl", ["$scope", "$http", function ($scope, $http) {
             game.beat = !game.beat;
         });
     }
+
+    $scope.onEnter = function($event) {
+        var keyCode = $event.which || $event.keyCode;
+        if (keyCode === 13) {
+            home.addGame();
+        }
+    }
+
 }]);

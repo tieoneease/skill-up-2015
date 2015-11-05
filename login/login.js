@@ -14,4 +14,11 @@ skillup.controller("LoginCtrl", ["$scope", "$http", function ($scope, $http) {
             alert("login failed");
         });
     }
+
+    $scope.onEnter = function ($event) {
+        var keyCode = $event.which || $event.keyCode;
+        if (keyCode === 13) {
+            login.submit();
+        }
+    }
 }]);

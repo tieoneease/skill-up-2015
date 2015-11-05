@@ -25,22 +25,17 @@ var users = [
 
 var authenticatedUser;
 
-/**
- * EXERCISE #3
- * Create a resource for /heartbeat to test Express
- */
-
-// TODO heartbeat function goes here
+app.get("/heartbeat", function (req, res) {
+    res.type('application/json');
+    res.status(200).send( { heartbeat: 'I am alive' });
+});
 
 app.post("/login", function (req, res) {
-    /**
-     * EXERCISE #6
-     * Complete the login function by sending appropriate responses
-     */
     var user = req.body;
 
+    console.log("logged in");
     if (!user || !user.username || !user.password) {
-        // TODO missing parameters, return a 422
+        res.status(422).send();
     }
 
     var usernameMatch = _.find(users, function (u) {
@@ -48,10 +43,10 @@ app.post("/login", function (req, res) {
     });
 
     if (!usernameMatch || usernameMatch.password !== user.password) {
-        // TODO invalid credentials, return a 401
+        res.status(401).send();
     } else {
         authenticatedUser = _.omit(usernameMatch, 'password');
-        // TODO success, return a 200 and the authenticatedUser object
+        res.status(200).send(authenticatedUser);
 
     }
 });
@@ -100,6 +95,7 @@ app.put("/users/current/games", function (req, res) {
         res.status(401).send();
     }
 });
+
 
 app.listen(port);
 console.log('Listening on port ' + port);
